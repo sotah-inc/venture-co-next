@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Boot } from "@sotah-inc/client";
+
 export default function Home() {
-  return <div>Welcome to Next.js!</div>;
+  return <Boot />;
 }

@@ -5,10 +5,8 @@
   "main": "build/dist/index.js",
   "scripts": {
     "clean": "rimraf ./build",
-    "dev": "next",
-    "build": "next build ./build/dist",
-    "build:ts": "tsc",
-    "build:ts:watch": "npm run -s build:ts -- --watch",
+    "dev": "next dev ./src",
+    "build": "next build ./src",
     "start": "next start"
   },
   "author": "",
@@ -25,6 +23,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@sotah-inc/client": "^1.0.19",
     "next": "^9.0.4",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"

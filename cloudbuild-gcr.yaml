@@ -1,0 +1,29 @@
+steps:
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['pull', 'gcr.io/$PROJECT_ID/venture-co-next/build:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-f', './build-env.Dockerfile',
+      '-t', 'gcr.io/$PROJECT_ID/venture-co-next/build',
+#      '--cache-from', 'gcr.io/$PROJECT_ID/venture-co-next/build:latest',
+      '.'
+    ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'gcr.io/$PROJECT_ID/venture-co-next/build', 'ihsw/venture-co-next/build']
+
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['pull', 'gcr.io/$PROJECT_ID/venture-co-next/runtime:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-f', './runtime-env.Dockerfile',
+      '-t', 'gcr.io/$PROJECT_ID/venture-co-next/runtime',
+#      '--cache-from', 'gcr.io/$PROJECT_ID/venture-co-next/runtime:latest',
+      '.'
+    ]
+
+images: [
+  'gcr.io/$PROJECT_ID/venture-co-next/build:latest',
+  'gcr.io/$PROJECT_ID/venture-co-next/runtime:latest'
+]

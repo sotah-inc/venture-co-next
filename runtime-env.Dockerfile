@@ -2,8 +2,10 @@
 FROM node:10-alpine
 
 # misc
-ENV PORT 8080
-ENV NODE_ENV=production
+ENV PORT 3000
+ENV NODE_ENV production
+ENV PUBLIC_API_ENDPOINT localhost:8080
+ENV SERVER_API_ENDPOINT localhost:8080
 
 # copying in source
 COPY ./app /srv/app

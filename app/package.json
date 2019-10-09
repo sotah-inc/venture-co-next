@@ -2,9 +2,9 @@
   "name": "@sotah-inc/venture-co-next",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev ./src",
+    "dev": "next dev ./src -p $PORT",
     "build": "next build ./src",
-    "start": "next start ./src"
+    "start": "next start ./src -p $PORT"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.19.1",

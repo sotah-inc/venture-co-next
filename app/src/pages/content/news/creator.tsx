@@ -3,12 +3,13 @@ import React from "react";
 import { ReceiveGetBoot, ReceiveGetPing } from "@sotah-inc/client/build/dist/actions/main";
 import { getBoot } from "@sotah-inc/client/build/dist/api/data";
 import { runners } from "@sotah-inc/client/build/dist/reducers/handlers";
-import { RootRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Root";
+// tslint:disable-next-line:max-line-length
+import { NewsCreatorRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Content/NewsCreator";
 import { defaultMainState, IStoreState } from "@sotah-inc/client/build/dist/types";
-import { IGetBootResponse } from "@sotah-inc/core";
+import { IGetBootResponse } from "@sotah-inc/server/build/dist/messenger/contracts";
 import { NextPageContext } from "next";
 
-import { Layout } from "../components/Layout";
+import { Layout } from "../../../components/Layout";
 
 interface IInitialProps {
   data?: {
@@ -16,7 +17,7 @@ interface IInitialProps {
   };
 }
 
-export function Home({ data }: Readonly<IInitialProps>) {
+export function Creator({ data }: Readonly<IInitialProps>) {
   const predefinedState: Partial<IStoreState> | undefined = (() => {
     if (typeof data === "undefined") {
       return;
@@ -32,12 +33,12 @@ export function Home({ data }: Readonly<IInitialProps>) {
 
   return (
     <Layout title="Secrets of the Auction House" predefinedState={predefinedState}>
-      <RootRouteContainer />
+      <NewsCreatorRouteContainer />
     </Layout>
   );
 }
 
-Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
+Creator.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
     return {};
   }
@@ -45,4 +46,4 @@ Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> 
   return { data: { boot: await getBoot() } };
 };
 
-export default Home;
+export default Creator;

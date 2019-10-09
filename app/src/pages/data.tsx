@@ -3,7 +3,7 @@ import React from "react";
 import { ReceiveGetBoot, ReceiveGetPing } from "@sotah-inc/client/build/dist/actions/main";
 import { getBoot } from "@sotah-inc/client/build/dist/api/data";
 import { runners } from "@sotah-inc/client/build/dist/reducers/handlers";
-import { RootRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Root";
+import { DataRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Data";
 import { defaultMainState, IStoreState } from "@sotah-inc/client/build/dist/types";
 import { IGetBootResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";
@@ -16,7 +16,7 @@ interface IInitialProps {
   };
 }
 
-export function Home({ data }: Readonly<IInitialProps>) {
+export function Data({ data }: Readonly<IInitialProps>) {
   const predefinedState: Partial<IStoreState> | undefined = (() => {
     if (typeof data === "undefined") {
       return;
@@ -32,12 +32,12 @@ export function Home({ data }: Readonly<IInitialProps>) {
 
   return (
     <Layout title="Secrets of the Auction House" predefinedState={predefinedState}>
-      <RootRouteContainer />
+      <DataRouteContainer />
     </Layout>
   );
 }
 
-Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
+Data.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
     return {};
   }
@@ -45,4 +45,4 @@ Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> 
   return { data: { boot: await getBoot() } };
 };
 
-export default Home;
+export default Data;

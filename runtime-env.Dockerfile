@@ -13,4 +13,4 @@ WORKDIR /srv/app
 COPY --from=ihsw/venture-co-next/build /srv/app/src/.next ./src/.next
 COPY --from=ihsw/venture-co-next/build /srv/app/node_modules ./node_modules
 
-CMD ["npm", "run", "-s", "start-dev"]
+CMD ["npm", "start", "-s"]

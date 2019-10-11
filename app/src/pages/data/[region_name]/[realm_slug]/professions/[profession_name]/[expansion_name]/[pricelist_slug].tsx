@@ -3,10 +3,17 @@ import React from "react";
 import { LoadGetBoot } from "@sotah-inc/client/build/dist/actions/main";
 import {
   ChangeSelectedProfession,
+  ReceiveGetItemsOwnership,
+  ReceiveGetPricelist,
   ReceiveGetProfessionPricelists,
   ReceiveGetUnmetDemand,
 } from "@sotah-inc/client/build/dist/actions/price-lists";
-import { getBoot, getStatus } from "@sotah-inc/client/build/dist/api/data";
+import {
+  getBoot,
+  getPriceList,
+  getStatus,
+  queryOwnersByItems,
+} from "@sotah-inc/client/build/dist/api/data";
 import {
   getProfessionPricelists,
   getUnmetDemand,
@@ -24,8 +31,11 @@ import {
 import { extractString, getPrimaryExpansion } from "@sotah-inc/client/build/dist/util";
 import {
   IGetBootResponse,
+  IGetPricelistResponse,
   IProfession,
+  IQueryOwnerItemsResponse,
   IStatusRealm,
+  ItemId,
   RealmSlug,
   RegionName,
 } from "@sotah-inc/core";
@@ -42,6 +52,8 @@ interface IInitialProps {
     unmetDemand: IGetUnmetDemandResult | null;
     professionPricelists: IGetProfessionPricelistsResult;
     selectedProfession: IProfession | null;
+    prices: IGetPricelistResponse | null;
+    owners: IQueryOwnerItemsResponse | null;
   };
 }
 
@@ -63,10 +75,16 @@ export function PricelistSlug({ data }: Readonly<IInitialProps>) {
       ),
       PriceLists: runners.pricelist(
         runners.pricelist(
-          runners.pricelist(defaultPriceListsState, ReceiveGetUnmetDemand(data.unmetDemand)),
-          ChangeSelectedProfession(data.selectedProfession),
+          runners.pricelist(
+            runners.pricelist(
+              runners.pricelist(defaultPriceListsState, ReceiveGetUnmetDemand(data.unmetDemand)),
+              ChangeSelectedProfession(data.selectedProfession),
+            ),
+            ReceiveGetProfessionPricelists(data.professionPricelists),
+          ),
+          ReceiveGetPricelist(data.prices),
         ),
-        ReceiveGetProfessionPricelists(data.professionPricelists),
+        ReceiveGetItemsOwnership(data.owners),
       ),
     };
   })();
@@ -116,10 +134,35 @@ PricelistSlug.getInitialProps = async ({ req, query }: NextPageContext): Promise
   }, null);
 
   const professionPricelists = await getProfessionPricelists(profession);
+  const itemIds: ItemId[] = (() => {
+    if (professionPricelists.data === null) {
+      return [];
+    }
+
+    return Object.keys(professionPricelists.data.items).map(Number);
+  })();
+
+  const prices: IGetPricelistResponse | null = await (async () => {
+    if (itemIds.length === 0) {
+      return null;
+    }
+
+    return getPriceList({ regionName, realmSlug, itemIds });
+  })();
+
+  const owners: IQueryOwnerItemsResponse | null = await (async () => {
+    if (itemIds.length === 0) {
+      return null;
+    }
+
+    return queryOwnersByItems({ regionName, realmSlug, items: itemIds });
+  })();
 
   return {
     data: {
       boot,
+      owners,
+      prices,
       professionPricelists,
       realmSlug,
       realms,

@@ -8,8 +8,6 @@ import { defaultMainState, IStoreState } from "@sotah-inc/client/build/dist/type
 import { IGetBootResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";
 
-import { Layout } from "../components/Layout";
-
 interface IInitialProps {
   data?: {
     boot: IGetBootResponse | null;
@@ -30,11 +28,10 @@ export function Home({ data }: Readonly<IInitialProps>) {
     };
   })();
 
-  return (
-    <Layout title="Secrets of the Auction House" predefinedState={predefinedState}>
-      <RootRouteContainer />
-    </Layout>
-  );
+  // tslint:disable-next-line:no-console
+  console.log("predefinedState", predefinedState);
+
+  return <RootRouteContainer />;
 }
 
 Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {

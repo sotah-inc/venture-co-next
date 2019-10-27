@@ -1,40 +1,20 @@
 import React from "react";
 
-import { ReceiveGetBoot, ReceiveGetPing } from "@sotah-inc/client/build/dist/actions/main";
-import { getBoot } from "@sotah-inc/client/build/dist/api/data";
-import { runners } from "@sotah-inc/client/build/dist/reducers/handlers";
-import { ContentRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Content";
-import { defaultMainState, IStoreState } from "@sotah-inc/client/build/dist/types";
+import { getBoot, getPing } from "@sotah-inc/client/build/dist/api/data";
+// tslint:disable-next-line:max-line-length
+import { ContentRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Content";
 import { IGetBootResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";
-
-import { Layout } from "../components/Layout";
 
 interface IInitialProps {
   data?: {
     boot: IGetBootResponse | null;
+    ping: boolean;
   };
 }
 
 export function Content({ data }: Readonly<IInitialProps>) {
-  const predefinedState: Partial<IStoreState> | undefined = (() => {
-    if (typeof data === "undefined") {
-      return;
-    }
-
-    return {
-      Main: runners.main(
-        runners.main(defaultMainState, ReceiveGetPing(true)),
-        ReceiveGetBoot(data.boot),
-      ),
-    };
-  })();
-
-  return (
-    <Layout title="Secrets of the Auction House" predefinedState={predefinedState}>
-      <ContentRouteContainer />
-    </Layout>
-  );
+  return <ContentRouteContainer rootEntrypointData={data} />;
 }
 
 Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
@@ -42,7 +22,7 @@ Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProp
     return {};
   }
 
-  return { data: { boot: await getBoot() } };
+  return { data: { boot: await getBoot(), ping: await getPing() } };
 };
 
 export default Content;

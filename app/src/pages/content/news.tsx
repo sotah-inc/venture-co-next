@@ -4,7 +4,7 @@ import { ReceiveGetBoot, ReceiveGetPing } from "@sotah-inc/client/build/dist/act
 import { ReceiveGetPosts } from "@sotah-inc/client/build/dist/actions/posts";
 import { getBoot, getPosts, IGetPostsResult } from "@sotah-inc/client/build/dist/api/data";
 import { runners } from "@sotah-inc/client/build/dist/reducers/handlers";
-import { NewsRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Content/News";
+import { NewsRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/News";
 import {
   defaultMainState,
   defaultPostsState,
@@ -12,8 +12,6 @@ import {
 } from "@sotah-inc/client/build/dist/types";
 import { IGetBootResponse } from "@sotah-inc/server/build/dist/messenger/contracts";
 import { NextPageContext } from "next";
-
-import { Layout } from "../../components/Layout";
 
 interface IInitialProps {
   data?: {
@@ -37,11 +35,10 @@ export function Content({ data }: Readonly<IInitialProps>) {
     };
   })();
 
-  return (
-    <Layout title="Secrets of the Auction House" predefinedState={predefinedState}>
-      <NewsRouteContainer />
-    </Layout>
-  );
+  // tslint:disable-next-line:no-console
+  console.log("predefinedState", predefinedState);
+
+  return <NewsRouteContainer />;
 }
 
 Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {

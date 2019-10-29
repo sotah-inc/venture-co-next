@@ -1,28 +1,30 @@
 import React from "react";
 
+import { ILoadRootEntrypoint } from "@sotah-inc/client/build/dist/actions/main";
 import { getBoot, getPing } from "@sotah-inc/client/build/dist/api/data";
+import { InitContainer } from "@sotah-inc/client/build/dist/containers/entry-point/util/Init";
 // tslint:disable-next-line:max-line-length
 import { ContentRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Content";
-import { IGetBootResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";
 
 interface IInitialProps {
-  data?: {
-    boot: IGetBootResponse | null;
-    ping: boolean;
-  };
+  rootEntrypointData?: ILoadRootEntrypoint;
 }
 
-export function Content({ data }: Readonly<IInitialProps>) {
-  return <ContentRouteContainer rootEntrypointData={data} />;
+export function Content({ rootEntrypointData }: Readonly<IInitialProps>) {
+  return (
+    <InitContainer rootEntrypointData={rootEntrypointData}>
+      <ContentRouteContainer />
+    </InitContainer>
+  );
 }
 
 Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
-    return;
+    return {};
   }
 
-  return { data: { boot: await getBoot(), ping: await getPing() } };
+  return { rootEntrypointData: { boot: await getBoot(), ping: await getPing() } };
 };
 
 export default Content;

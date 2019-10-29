@@ -1,27 +1,29 @@
 import React from "react";
 
+import { ILoadRootEntrypoint } from "@sotah-inc/client/build/dist/actions/main";
 import { getBoot, getPing } from "@sotah-inc/client/build/dist/api/data";
+import { InitContainer } from "@sotah-inc/client/build/dist/containers/entry-point/util/Init";
 import { RootRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Root";
-import { IGetBootResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";
 
 interface IInitialProps {
-  data?: {
-    ping: boolean;
-    boot: IGetBootResponse | null;
-  };
+  rootEntrypointData?: ILoadRootEntrypoint;
 }
 
-export function Home({ data }: Readonly<IInitialProps>) {
-  return <RootRouteContainer rootEntrypointData={data} />;
+export function Home({ rootEntrypointData }: Readonly<IInitialProps>) {
+  return (
+    <InitContainer rootEntrypointData={rootEntrypointData}>
+      <RootRouteContainer />
+    </InitContainer>
+  );
 }
 
 Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
-    return;
+    return {};
   }
 
-  return { data: { boot: await getBoot(), ping: await getPing() } };
+  return { rootEntrypointData: { boot: await getBoot(), ping: await getPing() } };
 };
 
 export default Home;

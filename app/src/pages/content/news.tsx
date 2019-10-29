@@ -1,52 +1,28 @@
 import React from "react";
 
-import { ReceiveGetBoot, ReceiveGetPing } from "@sotah-inc/client/build/dist/actions/main";
-import { ReceiveGetPosts } from "@sotah-inc/client/build/dist/actions/posts";
-import { getBoot, getPosts, IGetPostsResult } from "@sotah-inc/client/build/dist/api/data";
-import { runners } from "@sotah-inc/client/build/dist/reducers/handlers";
+import { getBoot, getPing, getPosts, IGetPostsResult } from "@sotah-inc/client/build/dist/api/data";
 import { NewsRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/News";
-import {
-  defaultMainState,
-  defaultPostsState,
-  IStoreState,
-} from "@sotah-inc/client/build/dist/types";
 import { IGetBootResponse } from "@sotah-inc/server/build/dist/messenger/contracts";
 import { NextPageContext } from "next";
 
 interface IInitialProps {
   data?: {
     boot: IGetBootResponse | null;
+    ping: boolean;
     posts: IGetPostsResult | null;
   };
 }
 
-export function Content({ data }: Readonly<IInitialProps>) {
-  const predefinedState: Partial<IStoreState> | undefined = (() => {
-    if (typeof data === "undefined") {
-      return;
-    }
-
-    return {
-      Main: runners.main(
-        runners.main(defaultMainState, ReceiveGetPing(true)),
-        ReceiveGetBoot(data.boot),
-      ),
-      Posts: runners.post(defaultPostsState, ReceiveGetPosts(data.posts)),
-    };
-  })();
-
-  // tslint:disable-next-line:no-console
-  console.log("predefinedState", predefinedState);
-
-  return <NewsRouteContainer />;
+export function Content({ data: { boot, ping } }: Readonly<IInitialProps>) {
+  return <NewsRouteContainer rootEntrypointData={{ boot, ping }} />;
 }
 
 Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
-    return {};
+    return;
   }
 
-  return { data: { boot: await getBoot(), posts: await getPosts() } };
+  return { data: { boot: await getBoot(), ping: await getPing(), posts: await getPosts() } };
 };
 
 export default Content;

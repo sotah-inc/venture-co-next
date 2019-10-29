@@ -18,7 +18,7 @@ export function Home({ data }: Readonly<IInitialProps>) {
 
 Home.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {
   if (typeof req === "undefined") {
-    return {};
+    return;
   }
 
   return { data: { boot: await getBoot(), ping: await getPing() } };

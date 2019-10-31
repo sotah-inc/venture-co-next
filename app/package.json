@@ -8,20 +8,20 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.19.1",
-    "@sotah-inc/client": "^1.0.137",
+    "@sotah-inc/client": "^1.0.138",
     "@sotah-inc/core": "^1.0.61",
     "@sotah-inc/server": "^1.0.65",
     "@zeit/next-css": "^1.0.1",
     "babel-plugin-styled-components": "^1.10.6",
     "http-status": "^1.4.0",
-    "next": "^9.1.1",
+    "next": "^9.1.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "@blueprintjs/tslint-config": "^1.9.0",
     "@types/http-status": "^0.2.30",
-    "@types/node": "^12.11.7",
+    "@types/node": "^12.12.3",
     "@types/react": "^16.9.11",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4"

@@ -19,8 +19,8 @@ class MyApp extends App<Readonly<IInitialProps>> {
     } = appContext;
 
     // returning early because will be called every route change
-    // and req is undefined when called client-side
-    if (typeof req === "undefined") {
+    const isClientSide = typeof req === "undefined";
+    if (isClientSide) {
       return appProps;
     }
 

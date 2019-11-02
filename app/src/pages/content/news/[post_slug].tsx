@@ -10,8 +10,8 @@ interface IInitialProps {
   post: IGetPostResponse | null;
 }
 
-export function Creator({ post: _post }: Readonly<IInitialProps>) {
-  return <PostRouteContainer />;
+export function Creator({ post }: Readonly<IInitialProps>) {
+  return <PostRouteContainer postPayload={post} />;
 }
 
 Creator.getInitialProps = async ({ query }: NextPageContext): Promise<IInitialProps> => {

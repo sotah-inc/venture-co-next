@@ -1,8 +1,7 @@
 import React from "react";
 
 import { getPost } from "@sotah-inc/client/build/dist/api/posts";
-// tslint:disable-next-line:max-line-length
-import { PostRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Content/Post";
+import { PostRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Post";
 import { extractString } from "@sotah-inc/client/build/dist/util";
 import { IGetPostResponse } from "@sotah-inc/core";
 import { NextPageContext } from "next";

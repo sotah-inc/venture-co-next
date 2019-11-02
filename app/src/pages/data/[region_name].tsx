@@ -2,7 +2,7 @@ import React from "react";
 
 import { getStatus } from "@sotah-inc/client/build/dist/api/data";
 // tslint:disable-next-line:max-line-length
-import { RegionRouteContainer } from "@sotah-inc/client/build/dist/route-containers/App/Data/Region";
+import { RegionRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/Region";
 import { extractString } from "@sotah-inc/client/build/dist/util";
 import { IStatusRealm } from "@sotah-inc/core";
 import { NextPageContext } from "next";

@@ -4,7 +4,7 @@ import { getPosts, IGetPostsResult } from "@sotah-inc/client/build/dist/api/data
 import { NewsRouteContainer } from "@sotah-inc/client/build/dist/route-containers/entry-point/News";
 
 interface IInitialProps {
-  posts?: IGetPostsResult;
+  posts: IGetPostsResult;
 }
 
 export function Content({ posts }: Readonly<IInitialProps>) {

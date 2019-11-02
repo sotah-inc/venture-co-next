@@ -8,8 +8,8 @@ interface IInitialProps {
   posts?: IGetPostsResult;
 }
 
-export function Content({ posts: _posts }: Readonly<IInitialProps>) {
-  return <NewsRouteContainer />;
+export function Content({ posts }: Readonly<IInitialProps>) {
+  return <NewsRouteContainer posts={posts} />;
 }
 
 Content.getInitialProps = async ({ req }: NextPageContext): Promise<IInitialProps> => {

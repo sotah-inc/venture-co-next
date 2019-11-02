@@ -18,6 +18,8 @@ class MyApp extends App<Readonly<IInitialProps>> {
       ctx: { req },
     } = appContext;
 
+    // returning early because will be called every route change
+    // and req is undefined when called client-side
     if (typeof req === "undefined") {
       return appProps;
     }
